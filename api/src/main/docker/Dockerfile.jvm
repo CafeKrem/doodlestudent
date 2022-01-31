@@ -3,7 +3,7 @@
 #
 # Before building the container image run:
 #
-# mvn package
+# mvn package -DskipTests
 #
 # Then, build the image with:
 #
@@ -51,4 +51,4 @@ COPY target/*-runner.jar /deployments/app.jar
 EXPOSE 8080
 USER 1001
 
-ENTRYPOINT [ "/deployments/run-java.sh" ]
+CMD [ "/deployments/run-java.sh" ]

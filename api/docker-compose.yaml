@@ -1,16 +1,17 @@
-version: "3.8"
+version: "3"
 services:
   db:
     image: mysql
     ports:
       - "3306:3306"
+    restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=tlc
       - MYSQL_USER=tlc
       - MYSQL_PASSWORD=tlc
   etherpad:
-    image: etherpad/etherpad:stable
+    image: etherpad/etherpad
     ports:
       - "9001:9001"
     volumes:
@@ -20,3 +21,46 @@ services:
     restart: always
     ports:
       - "2525:25"
+  backend:
+    image:  quarkus/code-with-quarkus-jvm
+    restart: always
+    command: sh -c 'java -Dquarkus.datasource.jdbc.url="jdbc:mysql://db:3306/tlc?useUnicode=true&serverTimezone=Europe/Paris" -jar /deployments/app.jar'
+    depends_on:
+      - db
+      - etherpad
+      - mail
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+  phpmyadmin:
+    container_name: phpmyadmin
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    environment:
+      # PMA_HOST: db
+      # pour phpmyadmin url externe
+      - PMA_ABSOLUTE_URI=https://phpmyadmin.diverse-team.fr/
+    ports:
+      - 8081:80
+    volumes:
+      - ./wp-files:/var/www/html
+  nginx_gateway:
+    image: doodle
+    ports:
+      - 80:8080
+      - 443:8443
+    environment:
+      - SERVER_NAME=localhost
+      - SERVE_FILES=yes
+      - DISABLE_DEFAULT_SERVER=no
+      - PROXY_REAL_IP=yes
+      - AUTO_LETS_ENCRYPT=no
+      - REDIRECT_HTTP_TO_HTTPS=no
+      - USE_LIMIT_REQ=no
+      - HTTP2=no
+      - ALLOWED_METHODS=GET|POST|HEAD
+      - FEATURE_POLICY=accelerometer 'none'; ambient-light-sensor 'none'; autoplay 'none'; camera 'none'; display-capture 'none'; document-domain 'none'; encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; picture-in-picture 'none'; speaker 'none'; sync-xhr 'self'; usb 'none'; vibrate 'none'; vr 'none'
+    volumes:
+      - ./../front/server-conf/conf.d:/server-confs:ro
+      - ./../front/neginx/certs:/etc/letsencrypt

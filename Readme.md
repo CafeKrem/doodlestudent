@@ -1,5 +1,9 @@
 # Remote meetings planning
 
+![](diagrammeDeploiement.jpg)
+
+on this diagramyou can see how we deploy this application.
+
 ## dockersisation & deployement
 
 you can execute this code in order to build the front & the back.This script will create 2 docker images `backend` for the quarkus backend & `doodle` for the front end.

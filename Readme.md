@@ -4,6 +4,11 @@
 
 on this diagramyou can see how we deploy this application.
 
+## TLC status 
+ 
+we reach the step 4, I did a CI/CD chain for another project if you you want to look it.
+https://github.com/CafeKrem/labvision
+
 ## dockersisation & deployement
 
 you can execute this code in order to build the front & the back.This script will create 2 docker images `backend` for the quarkus backend & `doodle` for the front end.

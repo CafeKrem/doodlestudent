@@ -62,5 +62,6 @@ services:
       - ALLOWED_METHODS=GET|POST|HEAD
       - FEATURE_POLICY=accelerometer 'none'; ambient-light-sensor 'none'; autoplay 'none'; camera 'none'; display-capture 'none'; document-domain 'none'; encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; picture-in-picture 'none'; speaker 'none'; sync-xhr 'self'; usb 'none'; vibrate 'none'; vr 'none'
     volumes:
-      - ./../front/server-conf/conf.d:/server-confs:ro
-      - ./../front/neginx/certs:/etc/letsencrypt
+      - ./server-conf:/server-confs:ro
+      #- ./../front/neginx/certs:/etc/letsencrypt
+    restart: always

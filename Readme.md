@@ -1,5 +1,23 @@
 # Remote meetings planning
 
+## dockersisation & deployement
+
+you can execute this code in order to build the front & the back.This script will create 2 docker images `backend` for the quarkus backend & `doodle` for the front end.
+```bash
+./build.sh
+```
+
+and in order to deploy
+```
+docker-compose up
+```
+
+and go on `doodle.localhost`
+
+### warning
+
+we met many problems when we try to deploy the bunkerised-nginx so we decided to unsecured it.
+
 This project is used in a course on the *ops* part at the [University of Rennes](https://www.univ-rennes1.fr/), France. It is a kind of doodle clone developed in so-called "native cloud" technologies in order to allow students to work on a continuous deployment chain in a containerized environment. Among the feature, the application automatically initializes a pad for the meeting and a chat room for the meeting participants.
 
 - The [back](https://github.com/barais/doodlestudent/tree/main/api) is developed using the [quarkus.io](https://quarkus.io/) framework. 
